@@ -5,16 +5,17 @@ import pygame.midi
 from time import sleep
 import random
 
+# Constants
+CHANNEL = 0
+VOLUME = 127
+HARP = 46
+
 # Init information
 pygame.init()
 pygame.midi.init()
 port = pygame.midi.get_default_output_id()
 output = pygame.midi.Output(port, 0)
-
-# Constants
-CHANNEL = 0
-VOLUME = 127
-ORGAN = 19
+output.set_instrument(HARP)
 
 def noteon(pitch):
 	output.note_on(pitch,VOLUME)

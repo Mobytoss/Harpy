@@ -5,6 +5,7 @@ import pygame.midi
 import socket
 from time import sleep
 import random
+#import music21
 
 # Constants
 CHANNEL = 0
@@ -17,6 +18,14 @@ pygame.midi.init()
 port = pygame.midi.get_default_output_id()
 output = pygame.midi.Output(port, 0)
 output.set_instrument(HARP)
+
+s = socket.socket()         # Create a socket object
+host = socket.gethostname() # Get local machine name
+port = 1987                 # Reserve a port for your service.
+
+
+			
+		
 
 def noteon(pitch):
 	output.note_on(pitch,VOLUME)
@@ -76,8 +85,31 @@ def structure(key):
 	arpeggio(key+third[random.randint(0,1)], random.randint(0,2), 1)
 	chord(key+forth, 1, random.randint(0,1))
 
-structure(random.randint(40, 70))
+#structure(random.randint(40, 70))
 
-# And close
+
+
+s.connect((host, port))
+
+
+#byte = []
+#file = open("chopin.mid", 'rb')
+#print file
+#while 1:
+#	byte.append(file.read(1))
+#	if not byte:
+#		break
+#file.close()
+
+#for x in byte:
+#	if byte[x] is 0x9 or 0x8: s.send(byte[x+1])
+
+for x in range(0, 60):
+	print str(60-x) + ' was sent...'
+	s.send(str(60-x))
+	sleep(.5)
+	s.send(str(60-x))
+
+s.close 
 del output
 pygame.midi.quit()

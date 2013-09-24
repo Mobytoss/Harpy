@@ -19,9 +19,10 @@ port = pygame.midi.get_default_output_id()
 output = pygame.midi.Output(port, 0)
 output.set_instrument(HARP)
 
-s = socket.socket()         # Create a socket object
-host = socket.gethostname() # Get local machine name
-port = 1987                 # Reserve a port for your service.
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
+#host = socket.gethostname() # Get local machine name
+host = "pi.sk1t.com" # Get hampe's address
+port = 5800                # Reserve a port for your service.
 
 
 			

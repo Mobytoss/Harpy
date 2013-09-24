@@ -20,7 +20,7 @@ output.set_instrument(HARP)
 
 # Socket information
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((socket.gethostname(), 1987))
+s.bind((socket.gethostname(), 5800))
 
 def noteon(pitch):
 	output.note_on(pitch,VOLUME)
@@ -34,7 +34,7 @@ state = [False for x in range(120)]
 c, addr = s.accept()     # Establish connection with client.
 print 'Got connection from', addr
 while state[1] == False:
-	buffer = c.recv(3)
+	buffer = c.recv(2)
 	print buffer + ' was received...\n'
 	if buffer != '':
 		note = int(buffer)

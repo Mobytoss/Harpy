@@ -35,8 +35,8 @@ c, addr = s.accept()     # Establish connection with client.
 print 'Got connection from', addr
 running = True
 while running:
-	buffer = "\0\0\0\0"
-	buffer = c.recv(4)
+	buffer = "\0\0\0"
+	buffer = c.recv(3)
 	print buffer + ' was received...\n'
 	if buffer != '':
 		note = int(buffer)

@@ -97,14 +97,14 @@ while running:
 		if events.type == pygame.KEYDOWN:
 			if events.key == 27:
 				running = False
-				s.send(str(events.key) + '\0')
+				s.sendall(str(events.key))
 				s.close 
 				break
 			print "Key " + str(events.key) + " being pressed!"
 			noteon(events.key)
-			s.send(str(events.key))
+			s.sendall(str(events.key))
 		elif events.type == pygame.KEYUP:
-			s.send(str(events.key) + '\0')
+			s.sendall(str(events.key))
 			print "Key " + str(events.key) + " being released!"
 			noteoff(events.key)
 		

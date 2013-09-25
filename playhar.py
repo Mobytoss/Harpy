@@ -12,19 +12,19 @@ CHANNEL = 0
 VOLUME = 127
 HARP = 46
 
+
 # Init information
+screen = pygame.display.set_mode((640, 480))
 pygame.init()
 pygame.midi.init()
-port = pygame.midi.get_default_output_id()
-output = pygame.midi.Output(port, 0)
+id = pygame.midi.get_default_output_id()
+output = pygame.midi.Output(id, 0)
 output.set_instrument(HARP)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
 #host = socket.gethostname() # Get local machine name
 host = "pi.sk1t.com" # Get hampe's address
 port = 5800                # Reserve a port for your service.
-
-
 			
 		
 
@@ -88,29 +88,28 @@ def structure(key):
 
 #structure(random.randint(40, 70))
 
-
-
+running = True
 s.connect((host, port))
+screen.fill((0, 0, 0))
+
+while running:
+	for events in pygame.event.get():
+		if events.type == pygame.KEYDOWN:
+			if events.key == 27:
+				running = False
+				s.send(str(events.key))
+				s.close 
+				break
+			print "Key " + str(events.key) + " being pressed!"
+			noteon(events.key)
+			s.send(str(events.key))
+		elif events.type == pygame.KEYUP:
+			s.send(str(events.key))
+			print "Key " + str(events.key) + " being released!"
+			noteoff(events.key)
+		
 
 
-#byte = []
-#file = open("chopin.mid", 'rb')
-#print file
-#while 1:
-#	byte.append(file.read(1))
-#	if not byte:
-#		break
-#file.close()
 
-#for x in byte:
-#	if byte[x] is 0x9 or 0x8: s.send(byte[x+1])
-
-for x in range(0, 60):
-	print str(60-x) + ' was sent...'
-	s.send(str(60-x))
-	sleep(.5)
-	s.send(str(60-x))
-
-s.close 
 del output
 pygame.midi.quit()

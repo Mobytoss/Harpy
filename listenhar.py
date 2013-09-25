@@ -33,13 +33,19 @@ s.listen(1)
 state = [False for x in range(120)]
 c, addr = s.accept()     # Establish connection with client.
 print 'Got connection from', addr
-while state[1] == False:
-	buffer = c.recv(2)
+running = True
+while running:
+	buffer = "\0\0\0"
+	buffer = c.recv(3)
 	print buffer + ' was received...\n'
 	if buffer != '':
 		note = int(buffer)
+		if note == 27:
+			running = False
+			c.close()
+			break
 		if state[note] == False:
-			if note != 1: noteon(note)
+			if note != 27: noteon(note)
 			state[note] = True
 		elif state[note] == True:
 			noteoff(note)
@@ -47,6 +53,5 @@ while state[1] == False:
 		
    
 # And close
-c.close()
 del output
 pygame.midi.quit()

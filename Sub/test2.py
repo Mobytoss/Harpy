@@ -1,7 +1,6 @@
-import io
 import struct
 
-file = open("kavinsky-nightcall.mid", "rb")
+file = open("C:\Users\Toby\Documents\GitHub\Harpy\Sub\kavinsky-nightcall.mid", "rb")
 
 def readmid(bytenum):
 	chars = ''
@@ -48,6 +47,17 @@ print struct.unpack(">L", file.read(4))
 test = file.read(2014)
 print struct.unpack("s"*4, file.read(4))
 print struct.unpack(">L", file.read(4))
+nextchar = '\x00'
+while 1:
+	filebyte = file.read(1)
+	if len(filebyte) == 1:
+		nextchar = struct.unpack("c", filebyte)
+		for hexi in range (0x80, 0x8F):
+			if nextchar[0] == chr(hexi):
+				print "Note found for channel " + str(hexi-0x80) + " - value is " + nextchar[0]
+	else:
+		break
+print "End of file..."
 
 
 

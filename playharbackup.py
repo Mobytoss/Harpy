@@ -30,7 +30,7 @@ def noteoff(pitch):
 	
 
 s.listen(1)
-state = [False for x in range(128)]
+state = [False for x in range(120)]
 c, addr = s.accept()     # Establish connection with client.
 print 'Got connection from', addr
 running = True

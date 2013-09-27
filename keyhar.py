@@ -19,12 +19,7 @@ pygame.init()
 pygame.midi.init()
 id = pygame.midi.get_default_output_id()
 output = pygame.midi.Output(id, 0)
-output.set_instrument(HARP)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
-#host = socket.gethostname() # Get local machine name
-host = "pi.sk1t.com" # Get hampe's address
-port = 5800                # Reserve a port for your service.
 			
 		
 
@@ -89,33 +84,23 @@ def structure(key):
 #structure(random.randint(40, 70))
 
 running = True
-s.connect((host, port))
+
 screen.fill((0, 0, 0))
 
 while running:
 	for events in pygame.event.get():
- 		if events.type == pygame.KEYDOWN:
-			if events.key < 100:
-				thekey = "0" + str(events.key)
-			else:
-				thekey = str(events.key)
- 			if events.key == 27:
- 				running = False
-				s.sendall(thekey)
-				s.close
- 				break
- 			print "Key " + thekey + " being pressed!"
- 			noteon(events.key)
-			s.sendall(thekey)
- 		elif events.type == pygame.KEYUP:
-			if events.key < 100:
-				thekey = "0" + str(events.key)
-			else:
-				thekey = str(events.key)
-			s.sendall(thekey)
- 			print "Key " + thekey + " being released!"
- 			noteoff(events.key)
-
+		if events.type == pygame.KEYDOWN:
+			if events.key == 27:
+				running = False
+				break
+			print "Key " + str(events.key) + " being pressed!"
+			noteon(events.key)
+		elif events.type == pygame.KEYUP:
+			if events.key == 27:
+				running = False
+				break
+			print "Key " + str(events.key) + " being released!"
+			noteoff(events.key)
 		
 
 
